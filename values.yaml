@@ -1,0 +1,95 @@
+# Default values for turingpi-llama-cpp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+
+image:
+  #  repository: "local/llama.cpp"
+  repository: "ghcr.io/ggerganov/llama.cpp"
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "server-60cdf40cc32f0ad4cb11e0ca8fd38f3b93d8d640"
+
+llama:
+  modelPath: "/models/gemma-2b-it-q4_k_m.gguf"
+  hfRepo: "lmstudio-ai/gemma-2b-it-GGUF"
+  hfFile: "gemma-2b-it-q4_k_m.gguf"
+  nPredict: "-1"
+
+storageAllocation: 2Gi
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: "traefik"
+  annotations:
+  hosts:
+    - host: llama.turingpi-cluster.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 900
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+
+# Additional volumes on the output Deployment definition.
+volumes:
+ - name: "models"
+   persistentVolumeClaim:
+     claimName: "models"
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts:
+ - name: "models"
+   mountPath: "/models"
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
