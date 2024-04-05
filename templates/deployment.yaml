@@ -33,7 +33,21 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: [ "/server", "-m", "{{.Values.llama.modelPath}}", "--hf-repo", "{{.Values.llama.hfRepo}}","--hf-file","{{.Values.llama.hfFile}}", "--port", "{{ .Values.service.port}}", "--host", "0.0.0.0", "-n", "{{.Values.llama.nPredict}}" ]
+          command: [ "/server"]
+          args:
+            - "--port"
+            - "{{ .Values.service.port}}"
+            - "--host"
+            - "0.0.0.0"
+          {{- range $key, $value := .Values.llama.args }}
+              {{- if $value }}
+            - "--{{ $key }}"
+            - "{{ $value }}"
+              {{- else }}
+            - "--{{ $key }}"
+              {{- end }}
+          {{- end }}
+
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
