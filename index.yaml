@@ -3,7 +3,17 @@ entries:
   turingpi-llama-cpp:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-04-04T16:46:00.866162+01:00"
+    created: "2024-04-05T15:09:32.348684+01:00"
+    description: A Helm chart for Kubernetes
+    digest: b83107710453d4bcea0eb5ba4f2bbeb62c5e2288b2d684a1deba8a0f175fe7ed
+    name: turingpi-llama-cpp
+    type: application
+    urls:
+    - https://elepedus.github.io/turingpi-llama-cpp/turingpi-llama-cpp-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-04-05T15:09:32.348171+01:00"
     description: A Helm chart for Kubernetes
     digest: 8acf62c99fee1ad1be7b05485490762261febed3495952d49370bf7e79725037
     name: turingpi-llama-cpp
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://elepedus.github.io/turingpi-llama-cpp/turingpi-llama-cpp-0.0.1.tgz
     version: 0.0.1
-generated: "2024-04-04T16:46:00.865758+01:00"
+generated: "2024-04-05T15:09:32.347738+01:00"
